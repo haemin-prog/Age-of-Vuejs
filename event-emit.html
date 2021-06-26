@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div id="app">
+      <!-- <app-header v-on:하위 컴포넌트에서 발생한 이벤트 이름 = "상위컴포넌트의 메서드 이름"></app-header> -->
+      <app-header v-on:pass="logText"></app-header>
+      <app-content v-on:add="logAddNum"></app-content>
+      <p>{{number}}</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+      var appHeader = {
+        //template: '<button>Click Me</button>'
+        // 버튼을 클릭했을 때 이벤트를 실행시키는 방법
+        template: '<button v-on:click="passEvent">Click Me</button>',
+
+        methods: {
+          passEvent: function () {
+            this.$emit("pass");
+            // this.$emit은 Vue에서 제공하는 API
+            // this.$emit을 이용해 pass라는 이벤트가 발생
+            // tag에서 pass라는 이벤트가 올라오는 것을 잡아줘야 함
+            // event Log는 Vue 개발자 플러그인에서 event tab에서 확인 가능
+          },
+        },
+      };
+
+      // [실습] event emit 실습
+      // addNumber을 이용해, data의 number을 하나씩 증가시키는 기능 추가
+      // <app-content v-on:add = "logAddNum"></app-content>
+      var appConent = {
+        template: '<button v-on:click="addNumber">Add Number</button>',
+
+        methods: {
+          addNumber: function () {
+            this.$emit("add");
+            // CAP PAN
+            // this.$emit('increase') <- 이야 이벤트 이름 이쁘네
+          },
+        },
+      };
+
+      var MyData = {
+        number: 10,
+      };
+
+      new Vue({
+        el: "#app",
+
+        components: {
+          "app-header": appHeader,
+
+          "app-content": appConent,
+        },
+
+        methods: {
+          logText: function () {
+            console.log("This is Log");
+          },
+
+          // [실습] event emit 실습
+          // addNumber을 이용해, data의 number을 하나씩 증가시키는 기능 추가
+          logAddNum: function () {
+            this.number++;
+            console.log("Now Number is " + this.number);
+          },
+        },
+
+        data: MyData,
+      });
+    </script>
+  </body>
+</html>

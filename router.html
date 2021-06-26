@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div id="app">
+      <!-- router link -->
+      <div>
+        <router-link to="/login">Login</router-link>
+        <!-- a tag와 같은 기능 <a href="">Login</a> -->
+        <router-link to="/main">Main</router-link>
+      </div>
+
+      <!-- router view -->
+      <router-view></router-view>
+    </div>
+
+    <!-- Vue js Script -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <!-- Vue Router Script -->
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+
+    <script>
+      var LoginComponent = {
+        template: "<div>login</div>",
+      };
+
+      // [실습] routes 속성 설명 및 실습 안내
+      var MainComponent = {
+        template: "<div>main</div>",
+      };
+
+      var router = new VueRouter({
+        // url에 #(해쉬값) 제거
+        mode: "history",
+
+        // 페이지의 라우팅 정보 (어떤 url -> 어떤 페이지)
+        routes: [
+          // 페이지의 개수 만큼 객체가 필요
+          // 로그인 페이지 정보
+          {
+            // 페이지의 url
+            path: "/login",
+            name: "login",
+
+            // 해당 url 에서 표시 될 컴포넌트
+            component: LoginComponent,
+          },
+
+          // [실습] routes 속성 설명 및 실습 안내
+          // 메인 페이지 정보
+          {
+            path: "/main",
+            name: "main",
+            component: MainComponent,
+          },
+        ],
+      });
+
+      var vm = new Vue({
+        el: "#app",
+        router: router, // router 속성
+      });
+    </script>
+  </body>
+</html>

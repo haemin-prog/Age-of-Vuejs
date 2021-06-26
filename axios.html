@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div id="app">
+      <!-- 클릭했을때 getData를 호출-->
+      <button v-on:click="getData">get user</button>
+
+      <!-- "{{}}" 만 적으면 user 정보를 정리하지 않은 상태로 화면에 뿌림  -->
+      {{ users }}
+    </div>
+
+    <!-- Vue js Script -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- Axios Script -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+      var chkVm = new Vue({
+        el: "#app",
+
+        data: {
+          users: [],
+        },
+
+        methods: {
+          getData: function () {
+            console.log(this); // Vue
+
+            // Vue(this)에 담으려면 va
+            var vm = this;
+
+            // 10개의 User정보가 담긴 sample data
+            axios
+              .get("https://jsonplaceholder.typicode.com/users/")
+              // then catch - response면 function 실행
+              .then(function (response) {
+                console.log(response);
+                // response 된 데이터
+                // {data: Array(10), status: 200, statusText: "OK", headers: {…}, config: {…}, …}
+                this.users = response.data;
+
+                // 실행시 user에 response 데이터가 담기지 않음
+                // 이유 : axios의 this는 Vue를 가리키지 않음
+                console.log(this); // Window를 가리키고 있음
+
+                // 해결 방법, var vm을 이용해 this에 Vue를 담은 후에 axios 내에서 vm을 이용
+                // chkVm.users
+                // (10) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, __ob__: Observer]
+
+                vm.users = response.data;
+              })
+
+              // then catch - error면 function 실행
+              .then(function (error) {
+                console.log(error);
+              });
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

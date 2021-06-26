@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div id="app">
+      <!-- 특정 tag의 id로 사용하려면 v-bind를 사용 -->
+      <!-- <p v-bind:id="uuid">{{ num }}</p> -->
+      <!-- [실습] 클래스에 name: 'text-blue' 를 바인딩 하기 -->
+      <p v-bind:id="uuid" v-bind:class="name">{{ num }}</p>
+      <p>{{ doubleNum }}</p>
+
+      <!-- [실습] v-if 활용 -->
+      <div v-if="loading">Loading...</div>
+      <div v-else>test user login been logged in</div>
+
+      <!-- [실습] v-show 활용 -->
+      <!-- v-if는 if/else / v-show는 invisible -->
+      <div v-show="loading">Loading...!</div>
+    </div>
+
+    <!-- Vue js Script -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <!-- Axios Script -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+      var vm = new Vue({
+        el: "#app",
+        data: {
+          str: "hi",
+          num: 10,
+          // 특정 tag의 id로 사용하려면 v-bind 를 사용
+          uuid: "abc1234",
+          // [실습] 클래스에 name: 'text-blue' 를 바인딩 하기
+          name: "text-blue",
+          // [실습] v-if & v-show 활용
+          loading: true,
+        },
+        computed: {
+          doubleNum: function () {
+            return this.num * 2;
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
