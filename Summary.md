@@ -12,9 +12,9 @@ MVVM 패턴의 뷰모델(View Model) 레이어에 해당하는 화면(View)단 �
 
 객체의 동작을 재 정의하는 API
 
-```
- Object.defineProperty ( 대상 객체, 객체의 속성, {
-    // 정의할 내용
+```js
+Object.defineProperty ( 대상 객체, 객체의 속성, { 
+    // 정의할 내용 
 })
 ```
 
@@ -22,7 +22,7 @@ MVVM 패턴의 뷰모델(View Model) 레이어에 해당하는 화면(View)단 �
 
 함수정의->함수실행의 과정을 거치지 않고, 함수를 괄호()로 래핑해 실행
 
-```
+```js
 (function(){
     // 실행할 내용
 }());
@@ -76,7 +76,7 @@ MVVM 패턴의 뷰모델(View Model) 레이어에 해당하는 화면(View)단 �
 
 뷰 컴포넌트는 각각 고유한 데이터 유효 범위를 가짐
 
-> 상위 컴포넌트 -> props(데이터) 전달 -> 하위 컴포넌트 -> 이벤트 발생 -> 상위 컴포넌트(반복)
+    상위 컴포넌트 -> props(데이터) 전달 -> 하위 컴포넌트 -> 이벤트 발생 -> 상위 컴포넌트(반복)
 
 - 컴포넌트 간 데이터를 주고 받기 위해선 규칙을 따라야 함
 - 상위에서 하위로는 데이터를 내려줌 (프롭스 속성)
@@ -89,15 +89,17 @@ MVVM 패턴의 뷰모델(View Model) 레이어에 해당하는 화면(View)단 �
 - 데이터의 흐름을 추적할 수 있다.
 - 데이터는 항상 내려오고, 이벤트는 항상 올라간다.
 
-```
-    <div id="app">
-        //<app-header v-bind:프롭스 속성이름="상위컴포넌트의 데이터 이름"></app-header>
-        <app-header v-bind:propsdata ="message"></app-header>
-    </div>
-        var appHeader = {
-            template : '<h1>header</h1>',
-            props: ['propsdata']
-        }
+```html
+<div id="app">
+  //<app-header
+    v-bind:프롭스
+    속성이름="상위컴포넌트의 데이터 이름"
+  ></app-header>
+  <app-header v-bind:propsdata="message"></app-header>
+</div>
+var appHeader = { template : '
+<h1>header</h1>
+', props: ['propsdata'] }
 ```
 
 ## props 속성의 특징
@@ -105,7 +107,7 @@ MVVM 패턴의 뷰모델(View Model) 레이어에 해당하는 화면(View)단 �
 Root의 message가 바뀌면 app-header의 props도 바뀐다.
 console을 이용해 myData.message를 바꿨을 때, 화면에 적용되어 나타남
 
-```
+```html
 // data binding form : {{ }}
     <div id="app">
         <app-header v-bind:propsdata ="message"></app-header>
@@ -140,7 +142,7 @@ console을 이용해 myData.message를 바꿨을 때, 화면에 적용되어 나
   }
   > <app-header v-on:하위 컴포넌트에서 발생한 이벤트 이름 = "상위 컴포넌트의 메서드 이름"></app-header>
 
-```
+```html
 <body>
     <div id="app">
         <!-- <app-header v-on:하위 컴포넌트에서 발생한 이벤트 이름 = "상위컴포넌트의 메서드 이름"></app-header> -->
@@ -184,7 +186,7 @@ console을 이용해 myData.message를 바꿨을 때, 화면에 적용되어 나
 - 하위 -> 상위 컴포넌트로 event 전달,
 - 다시 상위 -> 하위로 props 전달하는 과정을 통해 통신
 
-```
+```html
 <body>
     <div id="app">
         <app-header v-bind:propsdata="num"></app-header>
@@ -238,13 +240,13 @@ console을 이용해 myData.message를 바꿨을 때, 화면에 적용되어 나
 
 ### CDN 방식
 
-    > Vue Router Script : ```<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>```
+Vue Router Script : `<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>`
 
 ### 뷰 라우터 등록
 
 뷰 라우터를 등록하게 되면, 뷰 인스턴스에 $route 가 잡히게 됨
 
-```
+```js
 // 라우터 인스턴스 생성
 var router = new VueRouter({
     // 라우터 옵션
@@ -262,12 +264,13 @@ new Vue({
 
 ### router view
 
-    routes 속성에 따라 컴포넌트가 화면에 표시 됨, 이때 표시 되는 지점>
-    ```<router-view></router-view>```
+routes 속성에 따라 컴포넌트가 화면에 표시 됨, 이때 표시 되는 지점>  
+`<router-view></router-view>`
 
 ### router link
 
-화면에서 링크를 클릭해 페이지를 이동 할 수 있도록 하는 `<router-link>` > `<router-link to="이동할 URL"></router-link>`
+화면에서 링크를 클릭해 페이지를 이동 할 수 있도록 하는  
+`<router-link>` > `<router-link to="이동할 URL"></router-link>`
 
 ## Axios(액시오스)
 
@@ -282,7 +285,7 @@ Promise(js의 비동기 처리 패턴)기반의 HTTP 통신 라이브러리
 
 ### function 내에서 get, then-catch 사용
 
-```
+```js
 getData.function(){
     // url : 10개의 user 정보가 담긴 sample data
     axios.get('https://jsonplaceholder.typicode.com/users/')
@@ -317,7 +320,7 @@ getData.function(){
 ### 웹 서비스에서 클라이언트와 서버와의 HTTP 통신 구조
 
 > 브라우저(Client) --> **HTTP 요청(Request)** 송신 --> 서버(Server) -(백엔드 로직)-> DB  
->  브라우저(Client) <-- **HTTP 응답(Response)** 수신 <-- 서버(Server) <-(백엔드 로직)- DB
+> 브라우저(Client) <-- **HTTP 응답(Response)** 수신 <-- 서버(Server) <-(백엔드 로직)- DB
 
 ### 네트워크 패널
 
@@ -340,9 +343,9 @@ cf. HTTP 프로토콜 참고 url <https://joshua1988.github.io/web-development/h
 
 ### 데이터 바인딩
 
-{{}} (Mustache Tag, 콧수염 괄호)를 이용해 Vue 인스턴스에서 정의한 속성을 화면에 표시하는 방법
+{{   }} (Mustache Tag, 콧수염 괄호)를 이용해 Vue 인스턴스에서 정의한 속성을 화면에 표시하는 방법
 
-```
+```html
 <div>{{ message }}</div>
 new Vue ({
     data:{
@@ -359,3 +362,42 @@ new Vue ({
 - v-bind
 - v-if : if/else
 - v-show
+
+### 모르는 문법이 나왔을 때, 공식 문서를 보고 해결하는 방법
+ [Vue.js Org](https://kr.vuejs.org/v2/guide/index.html)에서 검색
+ 
+### methods 속성과 v-on 디렉티브를 이용한 키보드, 마우스 이벤트 처리 방법
+클릭 이벤트 : ```v-on:click="메서드 이름"```  
+키 입력 이벤트 : ```v-on:keyup="메서드 이름"```  
+특정 키 입력 이벤트 : ```v-on:keyup.특정키="메서드 이름"```  
+
+## 뷰의 템플릿 문법 : 실전
+템플릿 내에 표현식이 많아지면 코드가 길어지고 유지보수가 어려움. 템플릿 문법을 Vue 속성을 이용하면 나이스하게 표현할 수 있음
+
+### watch 속성
+데이터의 변화에 따라 로직을 실행하는 속성
+
+```
+watch:{
+    데이터 이름: function(){
+        // 실행할 내용
+    }
+}
+```
+
+### computed 속성
+```
+computed:{
+    메소드 이름: function(){
+        // ...
+        return ~ // 실행할 내용
+    }
+}
+```
+
+### watch vs computed 
+[Computed Properties and Watchers-Eng](https://vuejs.org/v2/guide/computed.html#ad)
+[Computed Properties and Watchers-Kor](https://kr.vuejs.org/v2/guide/computed.html)
+
+watch는 데이터를 지정하고, 데이터가 바뀔때 실행되는 **명령형 프로그래밍** 방식,  
+computed는 계산해야하는 데이터를 정의하는 **선언형 프로그래밍** 방식.

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .blueWarning {
+        color: blue;
+      }
+      .redWarning {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <!--<p v-bind:class="cname"></p> -->
+
+      <!-- template Version! isError이 true일때 스타일 warning을 적용 -->
+      <p v-bind:class="{ blueWarning: isError }">
+        "template Version Error with Blue!"
+      </p>
+
+      <!-- computed Version! -->
+      <p v-bind:class="errorTextColor">"computed Version Error with Red!"</p>
+
+      <button v-on:click="btnClick">{{ isError }}</button>
+    </div>
+    <!-- Vue js Script -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+      new Vue({
+        el: "#app",
+        data: {
+          //cname: "blue-text",
+          isError: false,
+        },
+
+        computed: {
+          errorTextColor: function () {
+            // computed는 return을 준다~
+            // isError가 true 라면 redWarning, false라면 null
+            return this.isError ? "redWarning" : null;
+          },
+        },
+
+        // 버튼으로 확인~
+        methods: {
+          btnClick: function () {
+            this.isError = !this.isError;
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

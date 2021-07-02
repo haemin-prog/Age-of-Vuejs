@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <!-- 클릭 : v-on:click="메서드 이름" -->
+      <button v-on:click="logClick">click me</button>
+
+      <!-- 키 입력 : v-on:keyup="메서드 이름" -->
+      <input type="text" v-on:keyup="logKeyUp" />
+
+      <!-- 특정 키 입력 : v-on:keyup.enter="메서드 이름"-->
+      <input type="text" v-on:keyup.enter="logEnter" />
+    </div>
+    <!-- Vue js Script -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+      new Vue({
+        el: "#app",
+        methods: {
+          logClick: function () {
+            console.log("clicked");
+          },
+          logKeyUp: function () {
+            console.log("key up");
+          },
+          logEnter: function () {
+            console.log("enter");
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
