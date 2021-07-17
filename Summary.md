@@ -401,3 +401,208 @@ computed:{
 
 watch는 데이터를 지정하고, 데이터가 바뀔때 실행되는 **명령형 프로그래밍** 방식,  
 computed는 계산해야하는 데이터를 정의하는 **선언형 프로그래밍** 방식.
+
+## Vue CLI
+CLI(Command Line Interface) 명령어를 통해 특정 액션을 실행하는 도구
+[Vue CLI 공식 사이트](https://cli.vuejs.org/)
+
+### Vue CLI 설치
+node 버전 확인 : ```node -v```  
+ - 10 이상 버전으로 설치 필요
+npm 버전 확인  : ```npm -v```
+vue cli 설치   : ```npm install -g @vue/cli```
+
+=> + @vue/cli@4.5.13 버전으로 설치가 되었다.
+
+### CLI 2.x와 CLI 3.x의 차이점
+**2021.07.02**설치 버전은 CLI 4
+명령어가 다르다! 
+
+[Vue CLI 2.x]
+vue init '프로젝트 템플릿 유형' '프로젝트 폴더 위치'
+ex. vue init 'webpack-simple' '프로젝트 폴더 위치
+
+[Vue CLI 3.x]
+vue create '프로젝트 폴더 위치'
+
+- 명령어
+vue create vue-cli
+-> preview를 Vue2로 선택
+
+``` 
+$ cd vue-cli
+$ npm run serve 
+```
+npm : node package maneger 
+
+``` 
+  App running at:
+  - Local:   http://localhost:8080/
+  - Network: http://172.30.1.25:8080/
+
+  Note that the development build is not optimized.
+  To create a production build, run npm run build. 
+```
+
+### CLI로 생성한 프로젝트 폴더 구조 확인 및 main.js 파일 설명
+1. pacakge.json
+- scripts
+``` json
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+```
+npm run serve 는 vue-cli service serve 를 실행하는 단축어
+
+2. index.html
+``` html
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+```
+src 밑에 있는 여러가지 파일을 <!--built files will be auto injected--> 에 주입하게 됨
+
+3. main.js
+
+``` javascript
+import Vue from 'vue'
+import App from './App.vue'
+
+Vue.config.productionTip = false
+
+new Vue({
+  render: h => h(App),
+}).$mount('#app')
+``` 
+import App from './App.vue' : 컴포넌트 파일
+.vue : 싱글 파일 컴포넌트
+render : template라는 함수를 정의하면 render가 실행됨? 
+
+### 싱글 파일 컴포넌트
+
+default vue template
+``` js
+<template>
+  <!-- HTML -->
+</template>
+
+<script>
+export default {
+  // JavaScript 
+};
+</script>
+
+<style>
+/* CSS */
+</style>
+```
+
+## 싱글 파일 컴포넌트
+### 싱글 파일 컴포넌트에 배운 내용 적용하기
+
+- 객체 정의
+여러 개의 컴포넌트에서 동일한 객체(값)을 사용(참조)하면 안되기에 새로운 객체는 function()의 return을 이용해야 함
+
+``` js
+// 지금까지의 수업 ver.
+new Vue ({
+    data: {
+        str: 'hi'
+    }
+})
+```
+
+``` js
+// Single File Component ver.
+export default {
+  data: function(){
+    return {
+
+    }
+  }
+};
+```
+
+### 싱글 파일 컴포넌트 체계에서 컴포넌트 등록하기
+컴포넌트를 등록할 때에는 components 폴더 아래에 PascalCase로 컴포넌트 이름(두 단어 이상의 조합으로)을 정의 하여 파일 생성  
+ex. AppHeader.vue
+
+cf. 두 단어 이상의 조합을 사용하는 이유
+예를 들어 main이라는 컴포넌트를 생성 한 후 App.Vue에서 main 컴포넌트를 사용하고 싶으면 ```<main></main>``` 로 작성하게 되는데, 이때 브라우저는 main이 html의 표준 태그인지, 사용자가 정의한 컴포넌트인지 알 수 있는 방법이 없기 때문. 충돌나지 않도록!
+
+컴포넌트 등록 방법
+``` js
+// <script> 아래에
+import AppHeader from "./components/AppHeader.vue";
+// export default 안에
+  components: {
+    "app-header": AppHeader,
+  },
+```
+
+- 참고  
+지금까지의 수업에서는 아래와 같이 var을 통해 선언하여 사용, 앞으로는 컴포넌트를 분리하여 import 를 이용해 vue 파일을 가져와서 사용
+``` js
+var AppHeader = {
+    template: '<header><h1>Header</h1></header>'
+}
+``` 
+
+### 싱글 파일 컴포넌트에서 props 속성 사용하는 방법
+
+App.vue
+```html
+<component-name v-bind: 프롭스 속성 이름="상위 컴포넌트의 데이터 이름"></component-name>  
+<app-header v-bind:propsdata="str"></app-header>
+```
+
+AppHeader.vue
+``` html
+<!-- template 아래에 -->
+<h1>{{ propsdata }}</h1>
+```
+``` js
+// script 아래에
+export default {
+  props: ["propsdata"],
+};
+```
+### 싱글 파일 컴포넌트에서 event emit 구현하기
+
+App.vue
+``` html
+<!-- v-on: (이벤트를 전달할)컴포넌트 메소드 이름 = "실행할 메소드 이름" -->
+<app-header v-on:renew="renewStr"></app-header>
+```
+``` js
+// export default 아래에
+  methods: {
+    renewStr: function() {
+      this.str = "New " + this.str;
+    },
+  },
+```
+
+AppHeader.vue
+``` html
+<button v-on:click="sendEvent">send</button>
+``` 
+``` js
+export default {
+  props: ["propsdata"],
+  methods: {
+    sendEvent: function() {
+      this.$emit("renew"); // emit을 이용해 renew를 전달
+    },
+  },
+};
+```
+send 버튼을 눌렀을 때, 발생하는 이벤트
+> event info  
+name:"renew"  
+type:"$emit"  
+source:"<app-header>"  
+payload:Array[0]
+
+
